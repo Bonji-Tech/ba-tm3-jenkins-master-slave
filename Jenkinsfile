@@ -46,7 +46,7 @@ pipeline{
             }
         }
 			steps{
-				sh 'systemctl status jenkins'
+				sh 'lsblk'
 			}
 		}
   }
