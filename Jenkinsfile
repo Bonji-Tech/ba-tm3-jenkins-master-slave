@@ -29,7 +29,6 @@ pipeline{
         }
       }
     }
-    /*
     stage('codebuild'){
       agent {
         label {
@@ -40,19 +39,16 @@ pipeline{
         sh 'cat /etc/passwd'
       }
     }
-    */
     stage('Jenkins-status'){
         agent {
             label {
                 label 'slave3'
             }
         }
-      stage('last'){
-			  steps{
-				  sh 'lsblk'
-          sh '/home/jenkins/workspace/monitor.sh'
-			  }
-      }
+			steps{
+				sh 'lsblk'
+        sh '/var/lib/jenkins/workspace/monitor.sh'
+			}
 		}
   }
 }
