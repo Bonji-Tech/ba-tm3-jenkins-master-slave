@@ -49,7 +49,7 @@ pipeline{
         }
 			steps{
 				sh 'lsblk'
-        sh '/var/lib/jenkins/workspace/monitor.sh'
+        sh '/home/jenkins/workspace/monitor.sh'
 			}
 		}
   }
