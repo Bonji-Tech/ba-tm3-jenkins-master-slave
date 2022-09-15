@@ -47,10 +47,12 @@ pipeline{
                 label 'slave3'
             }
         }
-			steps{
-				sh 'lsblk'
-        sh '/home/jenkins/workspace/monitor.sh'
-			}
+      stage('last'){
+			  steps{
+				  sh 'lsblk'
+          sh '/home/jenkins/workspace/monitor.sh'
+			  }
+      }
 		}
   }
 }
