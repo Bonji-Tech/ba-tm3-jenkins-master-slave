@@ -29,14 +29,22 @@ pipeline{
         }
       }
     }
+    agent {
+      label 'slave 2'
+    }
     stage('codebuild'){
-      agent {
-        label {
-          label 'slave2'
+      parallel {
+        stage('stage 2 test 1') {
+          steps {
+            sh 'whoami'
+          }
+        stage('stage 2 test 2') {
+          steps {
+            sh 'pwd'
+            sh 'cat /etc/passwd'
+          }
         }
       }
-      steps{
-        sh 'cat /etc/passwd'
       }
     }
     stage('Jenkins-status'){
@@ -51,4 +59,4 @@ pipeline{
 			}
 		}
   }
-}
+  }
