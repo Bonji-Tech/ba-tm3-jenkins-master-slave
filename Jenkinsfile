@@ -29,7 +29,6 @@ pipeline{
         }
       }
     }
-    /*
     stage('codebuild'){
       agent {
         label {
@@ -40,7 +39,6 @@ pipeline{
         sh 'cat /etc/passwd'
       }
     }
-    */
     stage('Jenkins-status'){
         agent {
             label {
