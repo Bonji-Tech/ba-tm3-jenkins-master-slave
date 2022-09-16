@@ -29,10 +29,10 @@ pipeline{
         }
       }
     }
-    agent {
-      label 'slave 2'
-    }
     stage('codebuild'){
+      agent {
+        label 'slave 2'
+      }   
       parallel {
         stage('stage 2 test 1') {
           steps {
