@@ -10,53 +10,72 @@ pipeline{
         checkout([$class: 'GitSCM', branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[credentialsId: 'github-id', url: 'https://github.com/Bonji-Tech/ba-tm3-jenkins-master-slave.git']]])
       }
     }
-    stage('parallel-job'){
+    stage('git-clone'){
       parallel{
-        stage('sub-job1'){
+        stage('parallel-1'){
           steps{
-            echo 'action1'
+            sh 'lscpu'
           }
         }
-        stage('sub-job2'){
+        stage('parallel-1a'){
           steps{
-            echo 'action2'
+            sh 'free -m'
           }
         }
-        stage('sub-job3'){
-            steps{
-                echo 'action3'
+      }
+    }  
+    stage('systemcheck'){
+      parallel{
+        stage('free-memory'){
+          steps{
+            sh 'free -g'
+          }
+        }
+        stage ('system-stat1'){
+          steps{
+            sh 'lscpu'
+          }
+        }
+      }
+    }
+    stage('uptime'){
+      parallel{
+        stage('runtime'){
+          agent {
+            label{
+              label 'slave2'
             }
+          }
+          steps{
+            sh 'uptime'
+          }
+        }
+        stage('system-stat2'){
+          steps{
+            sh 'lsblk'
+          }
         }
       }
     }
     stage('codebuild'){
-      agent {
-        label 'slave 2'
-      }   
-      parallel {
-        stage('stage 2 test 1') {
-          steps {
+      parallel{
+        stage('runtime'){
+          agent {
+            label{
+              label 'slave3'
+            }
+          }
+          steps{
+            sh '/home/jenkins/workspace/monitor.sh'
+          }
+        }
+        stage('system-stat2'){
+          steps{
+            sh 'cat /etc/passwd'
             sh 'whoami'
           }
-        stage('stage 2 test 2') {
-          steps {
-            sh 'pwd'
-            sh 'cat /etc/passwd'
-          }
         }
-      }
       }
     }
-    stage('Jenkins-status'){
-        agent {
-            label {
-                label 'slave3'
-            }
-        }
-			steps{
-				sh 'lsblk'
-        sh '/home/jenkins/workspace/monitor.sh'
-			}
-		}
   }
-  }
+}
